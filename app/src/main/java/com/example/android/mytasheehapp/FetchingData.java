@@ -105,7 +105,7 @@ public class FetchingData extends AppCompatActivity {
                 Toast.makeText(FetchingData.this, "No result found", Toast.LENGTH_SHORT).show();
 
             else
-                Toast.makeText(FetchingData.this, "Data is found for" + wordslist.get(counter-1), Toast.LENGTH_LONG).show();
+                Toast.makeText(FetchingData.this, "Data is found for " + wordslist.get(counter-1), Toast.LENGTH_LONG).show();
 
             for (Ayah str : ayahs) {
                 for (String s1 : wordslist) {
