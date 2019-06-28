@@ -1,6 +1,8 @@
+package com.example.android.mytasheehapp;
 
+import java.io.Serializable;
 
-public class Ayah {
+public class Ayah implements Serializable {
 
     private String surahName;
     private String ayahText;

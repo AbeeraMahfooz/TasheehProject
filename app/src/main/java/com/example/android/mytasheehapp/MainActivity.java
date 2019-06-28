@@ -1,6 +1,7 @@
 package com.example.android.mytasheehapp;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,9 +25,8 @@ public class MainActivity extends AppCompatActivity {
     EditText ayahtext;
     EditText keywords;
     Button button;
-    List<String> listOfWords;
+    ArrayList<String> listOfWords;
 
-    ArrayList<String> names = new ArrayList<String>();
     ArrayList<String> matched = new ArrayList<String>();
     int counter = 0;
     boolean flag = true;
@@ -41,14 +41,6 @@ public class MainActivity extends AppCompatActivity {
         ayahtext = (EditText) findViewById(R.id.editInput);
         keywords = (EditText) findViewById(R.id.editInput2);
         button = (Button) findViewById(R.id.button1);
-        
-
-        names.add("happiest birthday to you");
-        names.add("happy birthday to u");
-        names.add("happiest birthday");
-        names.add("congratulations to you");
-        names.add("nothing in common");
-
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,28 +68,14 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                 }
+                 if (listOfWords.size() <= 1){
+                    flag = false;
+                     Toast.makeText(MainActivity.this, "keywords should be more than 1", Toast.LENGTH_SHORT).show();
+                 }
                     if (flag) {
-                        matched.clear();
-                        for (String str : names) {
-                            counter = 0;
-                            for (String s1 : listOfWords) {
-                                String pattern2 = "\\b" + s1.toLowerCase() + "\\b";
-                                Pattern p1 = Pattern.compile(pattern2);
-                                Matcher m1 = p1.matcher(str.toLowerCase());
-                                //return m.find();
-                                //break the loop if any keyword doesnt exist in the current ayah.
-                                if (m1.find()) {
-                                    //continue to check other keywords in the arraylist of ayah
-                                    counter++;
-                                } else break;
 
-                            }
-                            if (counter == listOfWords.size()) {
-                                matched.add(str);
-                            }
-                        }
-                        Intent i = new Intent(MainActivity.this, list_view.class);
-                        i.putExtra("key", matched);
+                        Intent i = new Intent(MainActivity.this, FetchingData.class);
+                        i.putExtra("key", listOfWords);
                         startActivity(i);
 
                 }
@@ -105,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static List<String> getWords(String text) {
-        List<String> words = new ArrayList<String>();
+    public static ArrayList<String> getWords(String text) {
+        ArrayList<String> words = new ArrayList<String>();
         BreakIterator breakIterator = BreakIterator.getWordInstance();
         breakIterator.setText(text);
         int lastIndex = breakIterator.first();
